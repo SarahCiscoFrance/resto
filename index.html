@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resto</title>
+    <meta name="description" content="Resto" />
+    <meta name="keywords" content="resto" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon" href="./favicon.png" />
+
+    <link rel="shortcut icon" type="image/png" href="./favicon.png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Pinyon+Script"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="css/style.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://code.s4d.io/widget-space/production/main.css"
+    />
+    <link rel="stylesheet" href="css/mystyle.css" />
+
+    <!--[if lt IE 9]>
+      <script src="js/vendor/html5shiv.min.js"></script>
+      <script src="js/vendor/respond.min.js"></script>
+    <![endif] -->
+  </head>
+
+  <body>
+    <div id="myDiv" style="display: none">
+      <div id="form-content">
+        <h4>URL du site Web</h4>
+        <p>Vous pouvez changer ici l'URL du site en arrière plan</p>
+        <form id="formURL">
+          <div>
+            <div class="input-group-addon">
+              <i class="fa fa-link" aria-hidden="true"></i>
+            </div>
+            <input
+              type="text"
+              style="border: 1px solid grey"
+              class="form-control"
+              id="urlWebSiteInput"
+              placeholder="URL du site"
+            />
+          </div>
+          <br />
+          <button
+            type="submit"
+            style="margin-bottom: 1%"
+            class="btn btn-primary"
+          >
+            Valider
+          </button>
+        </form>
+      </div>
+    </div>
+    <iframe id="iframeResto" frameborder="0"></iframe>
+
+    <div class="sparkDivSpace">
+      <div id="my-ciscospark-widget-space"></div>
+    </div>
+
+    <div class="sparkDivRecents">
+      <div id="my-ciscospark-widget-recents"></div>
+    </div>
+
+    <button type="button" id="buttonSpark" class="btn btn-primary">
+      <i
+        class="fa fa-video-camera fa-2x"
+        style="margin-top: 10%;"
+        aria-hidden="true"
+      ></i>
+    </button>
+
+    <button type="button" id="buttonSettings" class="btn btn-primary">
+      <i
+        class="fa fa-cog fa-2x"
+        style="margin-top: 10%;"
+        aria-hidden="true"
+      ></i>
+    </button>
+    <!--ce script bundle.js (créé avec browserify) me permet de générer un token à chaque instance (validité 14h)-->
+    <script src="./bundle.js"></script>
+    <script src="js/scripts.min.js"></script>
+    <script src="js/custom.min.js"></script>
+    <script src="https://code.s4d.io/widget-space/production/bundle.js"></script>
+    <script>
+      $(function() {
+        var urliFrame = "resto.html";
+
+        $("#iframeResto").attr("src", urliFrame);
+
+        $("#buttonSettings").on("click", function() {
+          var x = document.getElementById("myDiv");
+          if (x.style.display === "none") {
+            x.style.display = "block";
+          } else {
+            x.style.display = "none";
+          }
+          $("#urlWebSiteInput").val(urliFrame);
+        });
+
+        $("#buttonSpark").on("click", function() {
+          $(".sparkDivSpace").toggle("slow");
+        });
+
+        $("#formURL").submit(function(e) {
+          e.preventDefault();
+
+          $("#iframeResto").attr("src", $("#urlWebSiteInput").val());
+
+          if ($("#urlWebSiteInput").val() != "") {
+            urliFrame = $("#urlWebSiteInput").val();
+          }
+
+          $("#myDiv").hide();
+        });
+
+        var widgetSpace = document.getElementById("my-ciscospark-widget-space");
+
+        ciscospark.widget(widgetSpace).spaceWidget({
+          guestToken: token,
+          destinationId: "pierre@ciscofrance.com",
+          destinationType: "email",
+          spaceActivities: {
+            files: false,
+            meet: true,
+            message: true,
+            people: false
+          },
+          initialActivity: "meet",
+          secondaryActivitiesFullWidth: false
+        });
+      });
+    </script>
+  </body>
+</html>
